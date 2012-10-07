@@ -1,0 +1,3 @@
+class: edu.cmu.lti.oaqa.framework.collection.DefaultGoldStandardDecorator
+
+# Please add a gs-persistence-provider to the decorator if inherited from this descriptor.

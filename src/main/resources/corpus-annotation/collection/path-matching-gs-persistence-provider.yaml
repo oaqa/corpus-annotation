@@ -1,0 +1,3 @@
+class: edu.cmu.lti.oaqa.framework.collection.PathMatchingGoldStandardPersistenceProvider
+
+# Please at least add DataSet, PathPattern, and LineSyntax if this descriptor is inherited.

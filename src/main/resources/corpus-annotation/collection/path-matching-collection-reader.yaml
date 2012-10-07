@@ -1,0 +1,8 @@
+class: edu.cmu.lti.oaqa.framework.collection.PathMatchingCollectionReader
+
+# Please at least add dataset, PathPattern, LineSyntax, and ElementUnit 
+# if this descriptor is inherited.
+# If necessary, please add decorator to the collection reader at well.
+
+persistence-provider: |
+  inherit: ecd.default-experiment-persistence-provider
