@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.jcas.tcas.Annotation;
@@ -40,20 +41,21 @@ public class PathMatchingGoldStandardPersistenceProvider extends
           throws ResourceInitializationException {
     boolean ret = super.initialize(aSpecifier, aAdditionalParams);
     String dataset = (String) getParameterValue("DataSet");
-    String lineSyntax = (String) getParameterValue("LineSyntax");
+    Pattern lineSyntaxPattern = Pattern.compile((String) getParameterValue("LineSyntax"));
     try {
       Resource[] resources = resolver.getResources((String) getParameterValue("PathPattern"));
       for (Resource resource : resources) {
         Scanner scanner = new Scanner(resource.getInputStream());
-        scanner.findInLine(lineSyntax);
-        MatchResult result = scanner.match();
-        DatasetSequenceId id = new DatasetSequenceId(dataset, result.group(1));
-        if (id2gsSpans.containsKey(id)) {
-          id2gsSpans.put(id, new ArrayList<GoldStandardSpan>());
+        while (scanner.nextLine() != null && scanner.findInLine(lineSyntaxPattern) != null) {
+          MatchResult result = scanner.match();
+          DatasetSequenceId id = new DatasetSequenceId(dataset, result.group(1));
+          if (!id2gsSpans.containsKey(id)) {
+            id2gsSpans.put(id, new ArrayList<GoldStandardSpan>());
+          }
+          GoldStandardSpan annotation = new GoldStandardSpan(Integer.parseInt(result.group(2)),
+                  Integer.parseInt(result.group(3)));
+          id2gsSpans.get(id).add(annotation);
         }
-        GoldStandardSpan annotation = new GoldStandardSpan(Integer.parseInt(result.group(2)),
-                Integer.parseInt(result.group(3)));
-        id2gsSpans.get(id).add(annotation);
         scanner.close();
       }
     } catch (IOException e) {
@@ -65,8 +67,11 @@ public class PathMatchingGoldStandardPersistenceProvider extends
   @Override
   public List<Annotation> populateGoldStandard(String dataset, String sequenceId, JCas gsView) {
     List<Annotation> gsAnnotations = new ArrayList<Annotation>();
-    for (GoldStandardSpan gsSpan : id2gsSpans.get(new DatasetSequenceId(dataset, sequenceId))) {
-      gsAnnotations.add(new Annotation(gsView, gsSpan.begin, gsSpan.end));
+    List<GoldStandardSpan> gsSpans = id2gsSpans.get(new DatasetSequenceId(dataset, sequenceId));
+    if (gsSpans != null) {
+      for (GoldStandardSpan gsSpan : gsSpans) {
+        gsAnnotations.add(new Annotation(gsView, gsSpan.begin, gsSpan.end));
+      }
     }
     return gsAnnotations;
   }
