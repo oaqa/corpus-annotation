@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>OAQATypes</name>
+  <description>Type system descriptor for the OAQA data model.
+
+$Id:$</description>
+  <version>0.1</version>
+  <vendor>OAQA</vendor>
+  <types>
+    <typeDescription>
+      <name>org.oaqa.model.OAQATop</name>
+      <description>The base class for OAQA feature structures that are not Annotations.</description>
+      <supertypeName>uima.cas.TOP</supertypeName>
+      <features>
+        <featureDescription>
+          <name>componentId</name>
+          <description>The unique id of the component that created this instance.</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>probability</name>
+          <description>The annotator's estimate of the probability associated with this annotation.</description>
+          <rangeTypeName>uima.cas.Float</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+    <typeDescription>
+      <name>org.oaqa.model.OAQAAnnotation</name>
+      <description>The Question Analysis supertype that defines the attributes common to all question analysis results.</description>
+      <supertypeName>uima.tcas.Annotation</supertypeName>
+      <features>
+        <featureDescription>
+          <name>componentId</name>
+          <description>The unique id of the component that created this instance.</description>
+          <rangeTypeName>uima.cas.String</rangeTypeName>
+        </featureDescription>
+        <featureDescription>
+          <name>probability</name>
+          <description>The annotator's estimate of the probability associated with this annotation.</description>
+          <rangeTypeName>uima.cas.Float</rangeTypeName>
+        </featureDescription>
+      </features>
+    </typeDescription>
+  </types>
+</typeSystemDescription>
