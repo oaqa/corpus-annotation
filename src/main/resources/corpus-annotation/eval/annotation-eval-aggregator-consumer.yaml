@@ -1,0 +1,5 @@
+class: edu.cmu.lti.oaqa.framework.eval.DefaultEvalConsumer
+name: base-retrieval-evaluator  
+
+aggregators: |
+  - inherit: jdbc.eval.retrieval-aggregator
