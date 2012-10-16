@@ -6,7 +6,6 @@ import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_component.JCasAnnotator_ImplBase;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.cas.FSArray;
 import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 
@@ -40,17 +39,18 @@ public class DefaultGoldStandardDecorator extends JCasAnnotator_ImplBase {
     try {
       final InputElement input = (InputElement) CasUtils.getFirst(aJCas,
               InputElement.class.getName());
-      final JCas gsView = ViewManager.getOrCreateView(aJCas, ViewType.DOCUMENT_GS);
+      final JCas gsView = ViewManager.getOrCreateView(aJCas, ViewType.CANDIDATE_GS);
       final String dataset = input.getDataset();
       final String sequenceId = input.getSequenceId();
       List<Annotation> gsAnnotations = persistence
               .populateGoldStandard(dataset, sequenceId, gsView);
       if (!gsAnnotations.isEmpty()) {
-        FSArray gsList = new FSArray(gsView, gsAnnotations.size());
+        // FSArray gsList = new FSArray(gsView, gsAnnotations.size());
         for (int i = 0; i < gsAnnotations.size(); i++) {
-          gsList.set(i, gsAnnotations.get(i));
+          // gsList.set(i, gsAnnotations.get(i));
+          gsAnnotations.get(i).addToIndexes(gsView);
         }
-        gsList.addToIndexes();
+        // gsList.addToIndexes();
       }
     } catch (Exception e) {
       throw new AnalysisEngineProcessException(e);
