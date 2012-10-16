@@ -46,7 +46,7 @@ public class PathMatchingGoldStandardPersistenceProvider extends
       Resource[] resources = resolver.getResources((String) getParameterValue("PathPattern"));
       for (Resource resource : resources) {
         Scanner scanner = new Scanner(resource.getInputStream());
-        while (scanner.nextLine() != null && scanner.findInLine(lineSyntaxPattern) != null) {
+        while (scanner.findInLine(lineSyntaxPattern) != null) {
           MatchResult result = scanner.match();
           DatasetSequenceId id = new DatasetSequenceId(dataset, result.group(1));
           if (!id2gsSpans.containsKey(id)) {
@@ -55,6 +55,7 @@ public class PathMatchingGoldStandardPersistenceProvider extends
           GoldStandardSpan annotation = new GoldStandardSpan(Integer.parseInt(result.group(2)),
                   Integer.parseInt(result.group(3)));
           id2gsSpans.get(id).add(annotation);
+          scanner.nextLine();
         }
         scanner.close();
       }
