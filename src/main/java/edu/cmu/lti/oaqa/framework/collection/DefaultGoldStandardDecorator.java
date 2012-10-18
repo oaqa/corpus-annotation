@@ -45,12 +45,9 @@ public class DefaultGoldStandardDecorator extends JCasAnnotator_ImplBase {
       List<Annotation> gsAnnotations = persistence
               .populateGoldStandard(dataset, sequenceId, gsView);
       if (!gsAnnotations.isEmpty()) {
-        // FSArray gsList = new FSArray(gsView, gsAnnotations.size());
         for (int i = 0; i < gsAnnotations.size(); i++) {
-          // gsList.set(i, gsAnnotations.get(i));
           gsAnnotations.get(i).addToIndexes(gsView);
         }
-        // gsList.addToIndexes();
       }
     } catch (Exception e) {
       throw new AnalysisEngineProcessException(e);
