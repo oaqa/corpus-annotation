@@ -76,8 +76,6 @@ public class AnnotationEvalConsumer extends RetrievalEvalConsumer<Annotation> {
         continue;
       }
       annotations.add(annotation);
-      System.out.println(jcas.getViewName() + " " + annotation.getBegin() + " "
-              + annotation.getEnd());
     }
     return annotations;
   }
