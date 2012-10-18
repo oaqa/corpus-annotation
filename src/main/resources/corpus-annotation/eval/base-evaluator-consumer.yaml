@@ -1,0 +1,5 @@
+class: edu.cmu.lti.oaqa.framework.eval.TraceConsumer
+name: base-measures-evaluator 
+
+experiment-listeners: |
+  - inherit: jdbc.eval.retrieval-evaluator
